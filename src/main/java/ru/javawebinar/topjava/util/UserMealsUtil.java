@@ -45,7 +45,7 @@ public class UserMealsUtil {
             int k = 0;
             int flag = 0;
             int calor = 0;
-            while (i+k<mealList.size() && temp.compareTo(mealList.get(i + k).getDateTime().toLocalDate()) == 0  ) {
+            while (i + k < mealList.size() && temp.compareTo(mealList.get(i + k).getDateTime().toLocalDate()) == 0) {
                 calor += mealList.get(i + k).getCalories();
                 k++;
             }
