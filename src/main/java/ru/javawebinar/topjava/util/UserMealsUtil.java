@@ -9,10 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.lang.Integer;
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -36,34 +34,17 @@ public class UserMealsUtil {
     }
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        List<UserMealWithExceed> tempIndex = new ArrayList<UserMealWithExceed>();
         List<UserMealWithExceed> Index = new ArrayList<UserMealWithExceed>();
         Collections.sort(mealList, new SortByUserMeal());
-        int i = 0;
-        while (i < mealList.size()) {
-            LocalDate temp = mealList.get(i).getDateTime().toLocalDate();
-            int k = 0;
-            int flag = 0;
-            int calor = 0;
-            while (i + k < mealList.size() && temp.compareTo(mealList.get(i + k).getDateTime().toLocalDate()) == 0) {
-                calor += mealList.get(i + k).getCalories();
-                k++;
+        Map CalorControl = new HashMap<LocalDate, Integer>();
+        for (int i=0;i<mealList.size();i++){
+            if (!(CalorControl.containsKey(mealList.get(i).getDateTime().toLocalDate()))){
+                CalorControl.put(mealList.get(i).getDateTime().toLocalDate(),mealList.get(i).getCalories());
             }
-            if (calor > caloriesPerDay) flag = 1;
-            for (int j = 0; j < k; j++) {
-                if (flag == 1) {
-                    tempIndex.add(new UserMealWithExceed(mealList.get(i + j).getDateTime(), mealList.get(i + j).getDescription(), mealList.get(i + j).getCalories(), true));
-                } else
-                    tempIndex.add(new UserMealWithExceed(mealList.get(i + j).getDateTime(), mealList.get(i + j).getDescription(), mealList.get(i + j).getCalories(), false));
-            }
-            i += k;
-        }
-        for (UserMealWithExceed aTempIndex : tempIndex) {
-            if ((aTempIndex.getDateTime().toLocalTime().compareTo(startTime) >= 0 && aTempIndex.getDateTime().toLocalTime().compareTo(endTime) <= 0)) {
-                Index.add(aTempIndex);
+            else{
+                CalorControl.put(mealList.get(i).getDateTime().toLocalDate(),CalorControl.get(mealList.get(i).getDateTime().toLocalDate()).intValue()+mealList.get(i).getCalories());
             }
         }
-
-        return Index;
+        return  null;
     }
 }
