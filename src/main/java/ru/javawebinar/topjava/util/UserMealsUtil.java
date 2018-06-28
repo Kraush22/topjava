@@ -36,19 +36,19 @@ public class UserMealsUtil {
         List<UserMealWithExceed> index = new ArrayList<>();
         Collections.sort(mealList, new SortByUserMeal());
         Map<LocalDate, Integer> calorControl = new HashMap<>();
-        for (UserMeal aMealList : mealList) {
-            if (!(calorControl.containsKey(aMealList.getDateTime().toLocalDate()))) {
-                calorControl.put(aMealList.getDateTime().toLocalDate(), aMealList.getCalories());
+        for (UserMeal userMeal : mealList) {
+            if (!(calorControl.containsKey(userMeal.getDateTime().toLocalDate()))) {
+                calorControl.put(userMeal.getDateTime().toLocalDate(), userMeal.getCalories());
             } else {
-                calorControl.put(aMealList.getDateTime().toLocalDate(), calorControl.get(aMealList.getDateTime().toLocalDate()) + aMealList.getCalories());
+                calorControl.put(userMeal.getDateTime().toLocalDate(), calorControl.get(userMeal.getDateTime().toLocalDate()) + userMeal.getCalories());
             }
         }
-        for (UserMeal aMealList : mealList) {
-            if (aMealList.getDateTime().toLocalTime().compareTo(startTime) >= 0 && aMealList.getDateTime().toLocalTime().compareTo(endTime) <= 0) {
-                if (calorControl.get(aMealList.getDateTime().toLocalDate()) > caloriesPerDay) {
-                    index.add(new UserMealWithExceed(aMealList.getDateTime(), aMealList.getDescription(), aMealList.getCalories(), true));
+        for (UserMeal userMeal : mealList) {
+            if (userMeal.getDateTime().toLocalTime().compareTo(startTime) >= 0 && userMeal.getDateTime().toLocalTime().compareTo(endTime) <= 0) {
+                if (calorControl.get(userMeal.getDateTime().toLocalDate()) > caloriesPerDay) {
+                    index.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), true));
                 } else {
-                    index.add(new UserMealWithExceed(aMealList.getDateTime(), aMealList.getDescription(), aMealList.getCalories(), false));
+                    index.add(new UserMealWithExceed(userMeal.getDateTime(), userMeal.getDescription(), userMeal.getCalories(), false));
                 }
             }
         }
