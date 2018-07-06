@@ -27,4 +27,19 @@ public class MealWithExceed {
                 ", exceed=" + exceed +
                 '}';
     }
+
+    public int getCalories() {
+        return calories;
+    }
+    public String getDescription(){
+        return description;
+    }
+
+    public boolean isExceed() {
+        return exceed;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 }
