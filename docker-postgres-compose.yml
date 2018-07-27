@@ -1,0 +1,12 @@
+postgres:
+  image: postgres
+  ports:
+    - '5432:5432'
+  environment:
+    POSTGRES_PASSWORD: 'password'
+    POSTGRES_USER: 'user'
+    POSTGRES_DB: 'topjava'
+#  volumes:
+#    - .init:/home/admin2/IdeaProjects/topjava/src/main/resources/db
+
+# docker-compose -f docker-postgres-compose.yml up
