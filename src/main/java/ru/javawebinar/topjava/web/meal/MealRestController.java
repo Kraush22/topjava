@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = MealRestController.REST_URL)
 public class MealRestController extends AbstractMealController {
-    static final String REST_URL = "/rest/profile/meals";
+    public static final String REST_URL = "/rest/profile/meals";
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
