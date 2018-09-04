@@ -1,5 +1,13 @@
-var ajaxUrl = "ajax/admin/users/";
-var datatableApi;
+const ajaxUrl = "ajax/admin/users/";
+let datatableApi;
+
+function updateTable() {
+        $.ajax({
+                type: "GET",
+                url: ajaxUrl + "filter",
+                data: $("#filter").serialize()
+        }).done(updateTableByData);
+    }
 
 $(function () {
     datatableApi = $("#datatable").DataTable({
