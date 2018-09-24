@@ -1,5 +1,9 @@
 package ru.javawebinar.topjava.web.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +13,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
 import ru.javawebinar.topjava.util.ValidationUtil;
+import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,6 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/ajax/admin/users")
 public class AdminAjaxController extends AbstractUserController {
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,10 +50,14 @@ public class AdminAjaxController extends AbstractUserController {
             // TODO change to exception handler
             return ValidationUtil.getErrorResponse(result);
         }
-        if (userTo.isNew()) {
-            super.create(UserUtil.createNewFromTo(userTo));
-        } else {
-            super.update(userTo, userTo.getId());
+        try {
+            if (userTo.isNew()) {
+                super.create(UserUtil.createNewFromTo(userTo));
+                } else {
+                super.update(userTo, userTo.getId());
+                }
+                } catch (DataIntegrityViolationException e) {
+            throw new IllegalRequestDataException(messageSource.getMessage(EXCEPTION_DUPLICATE_EMAIL, null, LocaleContextHolder.getLocale()));
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
